@@ -22,7 +22,6 @@ export default function HomePage() {
   const [email, setEmail] = useState('');
   const [position, setPosition] = useState('');
   useEffect(() => {
-    // debugger
     dispatch(getDataEmployess());
   }, []);
 
@@ -40,8 +39,6 @@ export default function HomePage() {
   const prevPage = useCallback(() => {
     dispatch(decrementPage());
   }, [dispatch]);
-  
-  console.log('HomePage', dataShow, page, maxPage);
   return (
     <>
       <Layout>
@@ -106,6 +103,8 @@ export default function HomePage() {
 }
 
 
+// TODO: move color to common
+
 const HomePageWrapper = styled.div`
 `;
 
@@ -116,7 +115,7 @@ const Content = styled.div`
 const TableTD  = styled.div`
   display: flex;
   font-size: 20px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
   font-weight: bold;
 `;
 

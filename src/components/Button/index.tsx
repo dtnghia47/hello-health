@@ -24,6 +24,7 @@ const ButtonStyled = styled.button<Props>`
   background: transperent;
   color: #24a9a7;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ disabled }) => (disabled ? '0.5' : '`')};
 `;
 
 const Button = memo((props: Props) => {
