@@ -2,12 +2,21 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 import { addNewData, getData } from './API';
 
+
+const PER_PAGE = 5;
+// update type later
 export interface HomeState {
   data: any;
+  page: number;
+  dataShow: any;
+  maxPage: number;
 }
 
 const initialState: HomeState = {
   data: [],
+  page: 0,
+  maxPage: 0,
+  dataShow: [],
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -45,13 +54,17 @@ export const HomeSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    // increment: (state) => {
-    //   // Redux Toolkit allows us to write "mutating" logic in reducers. It
-    //   // doesn't actually mutate the state because it uses the Immer library,
-    //   // which detects changes to a "draft state" and produces a brand new
-    //   // immutable state based off those changes
-    //   state.value += 1;
-    // },
+    incrementPage: (state) => {
+      let newPage = state.page + 1;
+      state.page = newPage;
+      state.dataShow = state.data.slice(newPage*PER_PAGE, newPage*PER_PAGE + 5);
+    },
+
+    decrementPage: (state) => {
+      let newPage = state.page - 1;
+      state.page = newPage;
+      state.dataShow = state.data.slice(newPage*PER_PAGE, newPage*PER_PAGE + 5);
+    },
     // decrement: (state) => {
     //   state.value -= 1;
     // },
@@ -67,25 +80,32 @@ export const HomeSlice = createSlice({
       .addCase(addNewEmployess.pending, (state) => {
       })
       .addCase(addNewEmployess.fulfilled, (state, action) => {
-        state.data = [
+        const newData = [
           ...state.data,
           action.payload
         ];
+        state.data = newData
+        state.maxPage = Math.ceil(newData.length/PER_PAGE);
       })
       .addCase(getDataEmployess.pending, (state) => {
       })
       .addCase(getDataEmployess.fulfilled, (state, action) => {
         state.data = action.payload;
+        state.maxPage = Math.ceil(action.payload.length/PER_PAGE);
+        state.dataShow = state.data.slice(state.page*PER_PAGE, state.page*PER_PAGE + 5);
       });
   },
 });
 
-// export const { increment, decrement, incrementByAmount } = HomeSlice.actions;
+export const { incrementPage, decrementPage } = HomeSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.Home.value)`
-export const selectData = (state: RootState) => state.home.data;
+export const selectData = (state: RootState) => state.home.dataShow;
+
+export const selectMaxPage = (state: RootState) => state.home.maxPage;
+export const selectCurentPage = (state: RootState) => state.home.page;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

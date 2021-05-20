@@ -8,10 +8,15 @@ import {
   selectData,
   getDataEmployess,
   addNewEmployess,
+  incrementPage, decrementPage,
+  selectMaxPage,
+  selectCurentPage 
 } from './slice';
 
 export default function HomePage() {
-  const data: any = useSelector(selectData);
+  const dataShow: any = useSelector(selectData);
+  const maxPage: any = useSelector(selectMaxPage);
+  const page: any = useSelector(selectCurentPage);
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,27 +32,42 @@ export default function HomePage() {
       dispatch(addNewEmployess());
     }
   }, [dispatch,name, email, position]);
+
+  const nextPage = useCallback(() => {
+      dispatch(incrementPage());
+  }, [dispatch]);
+
+  const prevPage = useCallback(() => {
+    dispatch(decrementPage());
+  }, [dispatch]);
   
-  console.log('HomePage', data);
+  console.log('HomePage', dataShow, page, maxPage);
   return (
     <>
       <Layout>
         <h1>
-          home page
+          Home page
         </h1>
+        <p>I will update UI home page later</p>
         <HomePageWrapper>
-          <Row>
-            <Col>Name</Col>
-            <Col>Email</Col>
-            <Col>Position</Col>
-          </Row>
-          {
-            data && data.slice(0, 5).map((item: any) => <Row key={item.id}>
-              <Col>{item.username}</Col>
-              <Col>{item.email}</Col>
-              <Col>{item.position}</Col>
-            </Row>)
-          }
+          <Content>
+            <TableTD>
+              <Col>Name</Col>
+              <Col>Email</Col>
+              <Col>Position</Col>
+            </TableTD>
+            {
+              dataShow.map((item: any) => <Row key={item.id}>
+                <Col>{item.username}</Col>
+                <Col>{item.email}</Col>
+                <Col>{item.position}</Col>
+              </Row>)
+            }
+          </Content>
+          <BlockAction>
+            <Button disabled={page === 0} onClick={prevPage}>Prev</Button>
+            <Button disabled={page === (maxPage-1)} onClick={nextPage}>Next</Button>
+          </BlockAction>
 
           <BlockAddNew>
             <div>
@@ -89,8 +109,22 @@ export default function HomePage() {
 const HomePageWrapper = styled.div`
 `;
 
+const Content = styled.div`
+  min-height: 150px;
+`
+
+const TableTD  = styled.div`
+  display: flex;
+  font-size: 20px;
+  margin-bottom: 10px
+  font-weight: bold;
+`;
+
 const Row = styled.div`
   display: flex;
+  & + & {
+    border-top: 1px solid #CCCCCC;
+  }
 `;
 
 const Col = styled.div`
@@ -110,4 +144,11 @@ const BlockAddNew = styled.div`
   input {
     height: 30px;
   }
+`
+
+const BlockAction = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  margin: 10px auto;
 `

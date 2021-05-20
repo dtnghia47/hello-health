@@ -8,7 +8,8 @@
 
  import React from 'react';
  import { Switch, Route, BrowserRouter } from 'react-router-dom';
- 
+ import "./App.css";
+
  import HomePage from "./pages/HomePage";
  import CountPage from "./pages/CountPage";
  
