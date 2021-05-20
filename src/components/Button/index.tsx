@@ -12,6 +12,7 @@ interface Props {
   onClick?: (event: any) => void;
   disabled?: boolean;
   width?: string | number;
+  margin?: string;
 }
 
 // move color to common, or we can use context and setup theme
@@ -25,6 +26,9 @@ const ButtonStyled = styled.button<Props>`
   color: #24a9a7;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   opacity: ${({ disabled }) => (disabled ? '0.3' : '`')};
+  ${props => props.margin && `
+    margin: ${props.margin}
+  `}
 `;
 
 const Button = memo((props: Props) => {

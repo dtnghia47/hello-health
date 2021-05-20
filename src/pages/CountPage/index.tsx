@@ -3,14 +3,12 @@
  * Count
  *
  */
-import React, { memo, useState, useCallback } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import styled from 'styled-components';
 import Layout from "../../components/Layout"
 import Button from "../../components/Button";
 
-interface Props {}
-
-export default function CountPage() {
+export const CountPage = memo(() => {
   const [number, setNumber] = useState(0);
   const resetNumber = useCallback(() => {
     setNumber(0);
@@ -29,29 +27,26 @@ export default function CountPage() {
             {number}
           </Number>
           <div>
-            <ButtonStyled onClick={resetNumber}>
+            <Button disabled={number === 0} margin="20px" onClick={resetNumber}>
               Reset
-            </ButtonStyled>
-            <ButtonStyled onClick={increaseNumber}>
+            </Button>
+            <Button margin="20px" onClick={increaseNumber}>
               Increase
-            </ButtonStyled>
+            </Button>
           </div>
         </CountWrapper>
       </Layout>
     </>
   );
-};
+});
 
 const Number = styled.div`
-  font-size: 40px;
+  font-size: 100px;
   color: #24a9a7;
-
+  margin-bottom: 50px;
 `;
 
 const CountWrapper = styled.div`
   text-align: center;
-`;
-  
-const ButtonStyled = styled(Button)`
-  margin: 20px;
+  margin-top: 50px;
 `;
