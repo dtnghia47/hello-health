@@ -21,10 +21,10 @@ const ButtonStyled = styled.button<Props>`
   border: 1px solid #24a9a7;
   border-radius: 16px;
   opacity: 1;
-  background: transperent;
+  background: transparent;
   color: #24a9a7;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? '0.5' : '`')};
+  opacity: ${({ disabled }) => (disabled ? '0.3' : '`')};
 `;
 
 const Button = memo((props: Props) => {

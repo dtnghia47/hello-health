@@ -45,7 +45,7 @@ export default function HomePage() {
         <h1>
           Home page
         </h1>
-        <p>I will update UI home page later</p>
+        <p>UI need to enhacnement a bit</p>
         <HomePageWrapper>
           <Content>
             <TableTD>
@@ -138,10 +138,10 @@ const BlockAddNew = styled.div`
     width: 150px;
     text-transform: capitalize;
     display: inline-block;
-    marign-bottom: 10px;
   }
   input {
     height: 30px;
+    margin-bottom: 10px;
   }
 `
 
